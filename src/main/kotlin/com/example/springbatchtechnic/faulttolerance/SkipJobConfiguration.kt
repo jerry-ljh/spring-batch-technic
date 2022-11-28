@@ -55,11 +55,11 @@ class SkipJobConfiguration(
     }
 
     fun itemReader(): ItemReader<Int> {
-        val queue: Queue<Int> = LinkedList(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9))
+        val queue: Queue<Int> = LinkedList(listOf(1, 2, 3, 4, 5, 6))
         return ItemReader<Int> {
             val result = queue.poll()
             if (result == 2) {
-                log.error("2 error! skip!")
+                log.error("read : $result error! skip!")
                 throw RuntimeException()
             }
             log.info("read : $result")
@@ -69,30 +69,27 @@ class SkipJobConfiguration(
 
     fun itemProcessor(): ItemProcessor<Int, Int> {
         return ItemProcessor<Int, Int> { input ->
-            log.error("process receive $input!")
             if (input == 3) {
-                log.error("3 error! skip!")
+                log.error("process: input: $input error! skip!")
                 throw RuntimeException()
             }
             val result = input * input
-            log.info("process : input: $input, result: $result")
+            log.info("process: input: $input, result: $result")
             result
         }
     }
 
     fun itemWriter(): ItemWriter<Int> {
         return ItemWriter<Int> { items ->
-            log.info("writer receive items: $items")
+            log.info("write: receive items($items)")
             items.forEach { item ->
                 if (item == 16) {
-                    log.error("16 error! skip!")
+                    log.error("write: $item error! skip!")
                     throw RuntimeException()
                 }
                 log.info("write: $item")
             }
         }
     }
+
 }
-
-
-
