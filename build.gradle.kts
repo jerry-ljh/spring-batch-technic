@@ -19,6 +19,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-batch")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.springframework.batch:spring-batch-integration:4.2.7.RELEASE")
     runtimeOnly("mysql:mysql-connector-java")
     runtimeOnly("com.h2database:h2")
     testImplementation("io.kotest:kotest-runner-junit5:4.6.3")
